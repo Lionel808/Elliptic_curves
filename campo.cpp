@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <stdexcept>
 
 using namespace std;
 
@@ -18,7 +19,17 @@ bool isPrime(int n)
 
 struct Campo
 {
+private:
     int p;
+
+public:
+    Campo(int modulo)
+    {
+        if (!isPrime(modulo))
+            throw invalid_argument("O modulo deve ser primo");
+
+        p = modulo;
+    }
 
     long sumMod(int a, int b)
     {
@@ -62,16 +73,16 @@ struct Campo
 
 int main()
 {
-    Campo campoF;
+    int moduloP;
 
         do
         {   
             cout << "sabendo que p deve ser primo," << endl;
             cout << "insira p: ";
-            cin >> campoF.p;
-        } while (!isPrime(campoF.p));
+            cin >> moduloP;
+        } while (!isPrime(moduloP));
     
-     
+    Campo campoF(moduloP);
 
     int a = 0;
     int b = 0;  
@@ -80,14 +91,14 @@ int main()
         cout << "sabendo que a deve ser >= 0 e < p," << endl;
         cout << "insira a: ";
         cin >> a;
-    } while (a < 0 || a >= campoF.p);
+    } while (a < 0 || a >= moduloP);
 
     do
     {
         cout << "sabendo que b deve ser >= 0 e < p," << endl;
         cout << "insira b: ";
         cin >> b;
-    } while (b < 0 || b >= campoF.p);
+    } while (b < 0 || b >= moduloP);
 
     cout << "soma: " << campoF.sumMod(a, b) << endl;
     cout << "multiplicação: " << campoF.multMod(a, b) << endl;
